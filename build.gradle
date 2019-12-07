@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+group 'wh1spr.discord'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile ('net.dv8tion:JDA:4.0.0_72') {
+        exclude module: 'opus-java'
+    }
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
