@@ -9,10 +9,10 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-//TODO add enable/disable
 public abstract class Command {
 
     private Set<String> permissions = null;
+    private boolean enabled = true;
 
     protected Command(String... permissions) {
         HashSet<String> p = new HashSet<String>();
@@ -30,4 +30,16 @@ public abstract class Command {
         onPrivateMessageReceived(jda, author.getUser(), channel, msg);
     }
     public abstract void onPrivateMessageReceived(JDA jda, User author, MessageChannel channel, Message msg);
+
+    public void enable() {
+        this.enabled = true;
+    }
+
+    public void disable() {
+        this.enabled = false;
+    }
+
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }
