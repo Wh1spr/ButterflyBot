@@ -8,22 +8,23 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+//TODO add enable/disable
 public abstract class Command {
 
-    private List<String> permissions = null;
+    private Set<String> permissions = null;
 
     protected Command(String... permissions) {
-        ArrayList<String> p = new ArrayList<String>();
+        HashSet<String> p = new HashSet<String>();
         for (int i = 0; i < permissions.length; i++) {
             p.add(permissions[i]);
         }
         this.permissions = p;
     }
 
-    public List<String> getPermissions() {
+    public Set<String> getPermissions() {
         return this.permissions;
     }
 
