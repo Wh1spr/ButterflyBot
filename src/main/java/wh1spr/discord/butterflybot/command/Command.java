@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import java.util.HashSet;
 import java.util.Set;
 
+//TODO Documentation
 public abstract class Command {
 
     private Set<String> permissions = null;
