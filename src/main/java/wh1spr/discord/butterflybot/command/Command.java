@@ -43,4 +43,8 @@ public abstract class Command {
     public boolean isEnabled() {
         return this.enabled;
     }
+
+    public String stripCommand(Message m) {
+        return m.getContentStripped().split(" ",2)[1];
+    }
 }
