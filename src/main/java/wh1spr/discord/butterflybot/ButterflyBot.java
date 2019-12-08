@@ -45,7 +45,7 @@ public class ButterflyBot extends ListenerAdapter {
         Collections.reverse(history);
 
         for (Message m : history) {
-            test.sendMessage(String.format("**%s#%s:** *%s*", m.getAuthor().getName(), m.getAuthor().getDiscriminator(), m.getContentStripped())).queue();
+            test.sendMessage(String.format("**%s#%s** @ %2d:%2d:%2d - *%s*", m.getAuthor().getName(), m.getAuthor().getDiscriminator(), m.getTimeCreated().getHour(), m.getTimeCreated().getMinute(), m.getTimeCreated().getSecond() ,m.getContentStripped())).queue();
         }
         try {
             test.sendMessage("*TEST - Done retrieving history*").complete(true);
