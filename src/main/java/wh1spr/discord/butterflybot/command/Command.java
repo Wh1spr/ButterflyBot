@@ -1,11 +1,9 @@
 package wh1spr.discord.butterflybot.command;
 
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.PrivateChannel;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 
 import java.util.HashSet;
@@ -28,6 +26,8 @@ public abstract class Command {
         return this.permissions;
     }
 
-    public abstract void onGuildMessageReceived(MessageReceivedEvent event, JDA jda, User author, MessageChannel channel, Message msg);
-    public abstract void onPrivateMessageReceived(PrivateMessageReceivedEvent event, JDA jda, User author, PrivateChannel channel, Message msg);
+    public void onGuildMessageReceived(JDA jda, Member author, TextChannel channel, Message msg) {
+        onPrivateMessageReceived(jda, author.getUser(), channel, msg);
+    }
+    public abstract void onPrivateMessageReceived(JDA jda, User author, MessageChannel channel, Message msg);
 }

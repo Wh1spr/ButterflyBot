@@ -19,19 +19,19 @@ public class CommandRegistry {
      * @throws IllegalArgumentException If a command-specific permission was already registered. A command can only register new permissions.
      */
     public void registerCommand(String commandName, Command command, String... aliases) {
-        if (commands.containsKey(commandName)) throw new IllegalArgumentException("CommandName already registered.");
+        if (commands.containsKey(commandName.toLowerCase())) throw new IllegalArgumentException("CommandName already registered.");
         else {
             for (String alias : aliases) {
-                if (commands.containsKey(alias)) throw new IllegalArgumentException("Alias '" + alias + "' already registered.");
+                if (commands.containsKey(alias.toLowerCase())) throw new IllegalArgumentException("Alias '" + alias + "' already registered.");
             }
         }
         for (String perm : command.getPermissions()) {
-            if (perms.contains(perm)) throw new IllegalArgumentException("Permission '" + perm + "' already registered.");
+            if (perms.contains(perm.toLowerCase())) throw new IllegalArgumentException("Permission '" + perm + "' already registered.");
         }
 
-        commands.put(commandName, command);
+        commands.put(commandName.toLowerCase(), command);
         for (String alias : aliases) {
-            commands.put(alias, command);
+            commands.put(alias.toLowerCase(), command);
         }
         this.perms.addAll(command.getPermissions());
     }
@@ -42,7 +42,7 @@ public class CommandRegistry {
      * @return A Command instance or null if it does not exist
      */
     public Command getCommand(String commandName) {
-        return this.commands.get(commandName);
+        return this.commands.get(commandName.toLowerCase());
     }
 
     /**
@@ -51,7 +51,7 @@ public class CommandRegistry {
      * @return True if it exists
      */
     public boolean commandExists(String commandName) {
-        return this.commands.containsKey(commandName);
+        return this.commands.containsKey(commandName.toLowerCase());
     }
 
     /**
@@ -60,6 +60,6 @@ public class CommandRegistry {
      * @return True if it exists
      */
     public boolean permissionExists(String permission) {
-        return this.perms.contains(permission);
+        return this.perms.contains(permission.toLowerCase());
     }
 }
