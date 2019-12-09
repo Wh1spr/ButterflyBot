@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import wh1spr.discord.butterflybot.command.CommandHandler;
 import wh1spr.discord.butterflybot.command.CommandRegistry;
 import wh1spr.discord.butterflybot.commands.EchoCommand;
+import wh1spr.discord.butterflybot.database.Database;
 
 import javax.security.auth.login.LoginException;
 
@@ -16,7 +17,8 @@ public class ButterflyBot extends ListenerAdapter {
     private CommandRegistry reg;
     private CommandHandler handler;
 
-    public ButterflyBot(String token) throws LoginException {
+    public ButterflyBot(String token, String dbURL) throws LoginException {
+        Database.createInstance(dbURL);
         this.registerCommands();
         this.jda = new JDABuilder(token)
                 .addEventListeners(this, this.handler)

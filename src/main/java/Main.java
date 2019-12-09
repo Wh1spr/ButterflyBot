@@ -10,6 +10,6 @@ public class Main {
         Properties props = new Properties();
         props.load(new FileInputStream("butterfly.properties"));
 
-        new ButterflyBot(props.getProperty("butterfly.token"));
+        new ButterflyBot(props.getProperty("butterfly.token"), props.getProperty("db.connection"));
     }
 }
