@@ -6,6 +6,8 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 
+import java.util.Iterator;
+
 public class Database {
 
     /************
@@ -31,6 +33,14 @@ public class Database {
 
     public MongoCollection<Document> getCollection(String collectionName) {
         return this.db.getCollection(collectionName);
+    }
+
+    public boolean existsCollection(String collectionName) {
+        Iterator<String> iter = this.db.listCollectionNames().iterator();
+        while(iter.hasNext()) {
+            if (iter.next().equals(collectionName)) return true;
+        }
+        return false;
     }
 
 }
