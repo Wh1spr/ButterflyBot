@@ -5,10 +5,12 @@ import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 
+import java.util.List;
+
 public abstract class BasicItem {
 
     private String collectionName;
-    private MongoCollection coll;
+    private MongoCollection<Document> coll;
     private Long id = 0L;
 
     public BasicItem(String collectionName, Long id) {
@@ -18,7 +20,7 @@ public abstract class BasicItem {
         this.id = id;
     }
 
-    protected MongoCollection getCollection() {
+    protected MongoCollection<Document> getCollection() {
         return this.coll;
     }
 
@@ -40,6 +42,9 @@ public abstract class BasicItem {
 
     public void update(Bson update) {
         this.getCollection().findOneAndUpdate(getFilter(), update);
+    }
+    public void update(List<Bson> updates) {
+        this.getCollection().findOneAndUpdate(this.getFilter(), updates);
     }
 
     public void delete() {
