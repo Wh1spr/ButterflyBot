@@ -1,8 +1,7 @@
-package wh1spr.discord.butterflybot.database.entities;
+package wh1spr.discord.butterflybot.database.entities.users;
 
 import com.mongodb.client.model.Updates;
 import net.dv8tion.jda.api.entities.User;
-import wh1spr.discord.butterflybot.database.BasicItem;
 import wh1spr.discord.butterflybot.database.BasicUpdateItem;
 
 //TODO documentation

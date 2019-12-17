@@ -4,8 +4,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import wh1spr.discord.butterflybot.database.Database;
-import wh1spr.discord.butterflybot.database.entities.UserEntity;
+import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 
 //TODO Documentation
 public class CommandHandler extends ListenerAdapter {
@@ -18,7 +17,6 @@ public class CommandHandler extends ListenerAdapter {
         if (prefix == null || prefix.isEmpty()) throw new IllegalArgumentException("Given prefix can not be null or empty");
         this.reg = reg;
         this.PREFIX = prefix;
-        // TODO auto-register enable/disable, shutdown, eval
     }
 
     @Override
@@ -65,6 +63,6 @@ public class CommandHandler extends ListenerAdapter {
 
     private void checkUser(User u) {
         new UserEntity(u);
-        //check if banned/muted
+        //TODO check if banned/muted
     }
 }

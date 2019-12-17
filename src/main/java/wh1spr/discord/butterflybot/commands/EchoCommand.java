@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.TextChannel;
 import net.dv8tion.jda.api.entities.User;
 import wh1spr.discord.butterflybot.command.Command;
-import wh1spr.discord.butterflybot.database.entities.UserEntity;
+import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 
 public class EchoCommand extends Command {
 
@@ -33,7 +33,8 @@ public class EchoCommand extends Command {
                 super.sendFailedMessage(msg, "I can't find that user");
             } else {
                 try{
-                    to.openPrivateChannel().complete(true).sendMessage(sentence).queue();
+                    to.openPrivateChannel().complete(true).sendMessage(sentence).complete();
+                    msg.addReaction("\u2705").queue();
                 } catch (Exception e) {
                     super.sendFailedMessage(msg, "I don't have permission to do that");
                 }
@@ -52,7 +53,7 @@ public class EchoCommand extends Command {
             } else if (!to.canTalk()) {
                 super.sendFailedMessage(msg, "I don't have permission to do that");
             } else {
-                to.sendMessage(sentence).queue();
+                to.sendMessage(sentence).complete();
                 msg.addReaction("\u2705").queue();
             }
         } else {
