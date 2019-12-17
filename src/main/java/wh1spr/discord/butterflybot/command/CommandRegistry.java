@@ -8,7 +8,14 @@ import java.util.Set;
 public class CommandRegistry {
 
     private Map<String, Command> commands = new HashMap<>();
+    private Map<String, Command> reqCmds = new HashMap<>();
     private Set<String> perms = new HashSet<>();
+
+    public CommandRegistry() {
+        // Register required commands
+        // these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove)
+        // permissions are bot.*
+    }
 
     /**
      * Register a Command with CommandRegistry.

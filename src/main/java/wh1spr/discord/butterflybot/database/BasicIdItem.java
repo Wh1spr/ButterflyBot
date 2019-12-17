@@ -10,7 +10,6 @@ public abstract class BasicIdItem extends BasicItem {
 
     public BasicIdItem(String collectionName) {
         super(collectionName, getAndSetNextId(collectionName));
-
     }
 
     // Use 0 id to put lastId
@@ -34,7 +33,4 @@ public abstract class BasicIdItem extends BasicItem {
             return next;
         }
     }
-
-
-
 }

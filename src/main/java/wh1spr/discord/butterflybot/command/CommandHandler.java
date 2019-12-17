@@ -65,5 +65,6 @@ public class CommandHandler extends ListenerAdapter {
 
     private void checkUser(User u) {
         new UserEntity(u);
+        //check if banned/muted
     }
 }
