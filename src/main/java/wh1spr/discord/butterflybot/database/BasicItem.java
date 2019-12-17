@@ -18,6 +18,7 @@ public abstract class BasicItem {
         this.collectionName = collectionName;
         this.coll = Database.getInstance().getCollection(collectionName);
         this.id = id;
+        if (!this.exists(id)) this.getCollection().insertOne(new Document("_id", id));
     }
 
     //FIXME make collection insert/update/delete unable to be done with id < 10 because reserved
