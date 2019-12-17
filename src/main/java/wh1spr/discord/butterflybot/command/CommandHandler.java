@@ -1,8 +1,11 @@
 package wh1spr.discord.butterflybot.command;
 
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import wh1spr.discord.butterflybot.database.Database;
+import wh1spr.discord.butterflybot.database.entities.UserEntity;
 
 //TODO Documentation
 public class CommandHandler extends ListenerAdapter {
@@ -20,6 +23,7 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+        checkUser(event.getAuthor());
         // Get command
         if (event.isWebhookMessage() || event.getAuthor().isBot()) return;
         if (!event.getMessage().getContentStripped().startsWith(PREFIX)) return;
@@ -34,6 +38,7 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
+        checkUser(event.getAuthor());
         // Get command
         if (event.getAuthor().isBot()) return;
         if (!event.getMessage().getContentStripped().startsWith(PREFIX)) return;
@@ -58,4 +63,7 @@ public class CommandHandler extends ListenerAdapter {
         return true;
     }
 
+    private void checkUser(User u) {
+        new UserEntity(u);
+    }
 }
