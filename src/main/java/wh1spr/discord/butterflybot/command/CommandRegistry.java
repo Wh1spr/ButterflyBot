@@ -13,7 +13,7 @@ public class CommandRegistry {
 
     public CommandRegistry() {
         // Register required commands
-        // these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove)
+        // these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove), shutdown
         // permissions are bot.*
     }
 
@@ -49,7 +49,10 @@ public class CommandRegistry {
      * @return A Command instance or null if it does not exist
      */
     public Command getCommand(String commandName) {
-        return this.commands.get(commandName.toLowerCase());
+        if (this.commands.containsKey(commandName.toLowerCase()))
+            return this.commands.get(commandName.toLowerCase());
+        else
+            return this.reqCmds.get(commandName.toLowerCase());
     }
 
     /**
@@ -58,7 +61,7 @@ public class CommandRegistry {
      * @return True if it exists
      */
     public boolean commandExists(String commandName) {
-        return this.commands.containsKey(commandName.toLowerCase());
+        return this.commands.containsKey(commandName.toLowerCase()) || this.reqCmds.containsKey(commandName.toLowerCase());
     }
 
     /**
