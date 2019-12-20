@@ -21,14 +21,23 @@ public class UserEntity extends BasicUpdateItem<User> {
         return new UserEntity(u).hasPermission(permission);
     }
 
+    private UserPermissions up = null;
+
     //TODO
     public boolean hasPermission(String permission) {
-        // check ban
+        if (this.isBanned()) return false;
+        if (up == null) up = new UserPermissions(this);
         // check taken away perms
         // check default perms
         // check given perms
 
+
         return true;
+    }
+
+    //TODO implement
+    public boolean isBanned() {
+        return false;
     }
 
     @Override

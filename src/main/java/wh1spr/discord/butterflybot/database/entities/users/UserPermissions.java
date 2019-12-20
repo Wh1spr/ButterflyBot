@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class UserPermissions {
+class UserPermissions {
 
     private static Logger log = Logger.getLogger("Permission");
     private static final List<String> defaultPerms = new ArrayList<>();
 
-    static {
+    public static void loadDefaultPermissions() {
         try {
             defaultPerms.addAll(Files.readAllLines(Paths.get("defaultpermissions.txt")));
         } catch (IOException e) {
@@ -20,7 +20,8 @@ public class UserPermissions {
         }
     }
 
+    UserPermissions(UserEntity ue) {
 
-
+    }
 
 }

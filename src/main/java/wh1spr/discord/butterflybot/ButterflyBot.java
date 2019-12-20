@@ -8,6 +8,7 @@ import wh1spr.discord.butterflybot.command.CommandHandler;
 import wh1spr.discord.butterflybot.command.CommandRegistry;
 import wh1spr.discord.butterflybot.commands.EchoCommand;
 import wh1spr.discord.butterflybot.database.Database;
+import wh1spr.discord.butterflybot.database.entities.users.UserPermissions;
 
 import javax.security.auth.login.LoginException;
 
@@ -19,6 +20,7 @@ public class ButterflyBot extends ListenerAdapter {
 
     public ButterflyBot(String token, String dbURL) throws LoginException {
         Database.createInstance(dbURL);
+        UserPermissions.loadDefaultPermissions();
         this.registerCommands();
         this.jda = new JDABuilder(token)
                 .addEventListeners(this, this.handler)
