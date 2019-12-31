@@ -1,9 +1,6 @@
 package wh1spr.discord.butterflybot.command;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class CommandRegistry {
 
@@ -12,9 +9,18 @@ public class CommandRegistry {
     private Set<String> perms = new HashSet<>();
 
     public CommandRegistry() {
-        // Register required commands
-        // these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove), shutdown
-        // permissions are bot.*
+        /*
+         TODO Register required commands
+         these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove), shutdown
+         permissions are bot.*
+         */
+    }
+
+    /**
+     * @return A Set of all the registered permissions in this CommandRegistry
+     */
+    public Set<String> getPermissions() {
+        return Collections.unmodifiableSet(perms);
     }
 
     /**

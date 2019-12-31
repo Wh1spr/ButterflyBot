@@ -36,6 +36,13 @@ public class ButterflyBot extends ListenerAdapter {
         this.handler = new CommandHandler(".", reg);
     }
 
+    public CommandHandler getCommandHandler() {
+        return this.handler;
+    }
+    public CommandRegistry getCommandRegistry() {
+        return this.reg;
+    }
+
     @Override
     public void onReady(ReadyEvent event) {
         System.out.println("ButterflyBot is ready to go!");
