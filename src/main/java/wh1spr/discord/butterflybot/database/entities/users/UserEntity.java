@@ -35,9 +35,31 @@ public class UserEntity extends BasicUpdateItem<User> {
         return true;
     }
 
-    //TODO implement
     public boolean isBanned() {
-        return false;
+        boolean banned = this.getDocument().getBoolean("banned", false);
+        return banned;
+    }
+
+    /**
+     * Bans the user from using bot commands
+     * @return True if the user was not banned, and now is
+     *         False if the user was already banned
+     */
+    public boolean ban() {
+        if (this.isBanned()) return false;
+        this.update(Updates.set("banned", true));
+        return true;
+    }
+
+    /**
+     * Pardons/unbans the user from using bot commands
+     * @return True if the user was banned, and now is not
+     *         False if the user was not banned
+     */
+    public boolean pardon() {
+        if (!this.isBanned()) return false;
+        this.update(Updates.unset("banned"));
+        return true;
     }
 
     @Override
