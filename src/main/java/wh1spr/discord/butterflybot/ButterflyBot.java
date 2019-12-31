@@ -20,7 +20,7 @@ public class ButterflyBot extends ListenerAdapter {
 
     public ButterflyBot(String token, String dbURL) throws LoginException {
         Database.createInstance(dbURL);
-        UserPermissions.loadDefaultPermissions();
+        UserPermissions.loadDefaultPermissions(this);
         this.registerCommands();
         this.jda = new JDABuilder(token)
                 .addEventListeners(this, this.handler)
