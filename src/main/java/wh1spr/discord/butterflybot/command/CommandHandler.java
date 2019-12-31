@@ -1,10 +1,13 @@
 package wh1spr.discord.butterflybot.command;
 
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.priv.PrivateMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
+
+import java.util.Objects;
 
 //TODO Documentation
 public class CommandHandler extends ListenerAdapter {
@@ -21,32 +24,38 @@ public class CommandHandler extends ListenerAdapter {
 
     @Override
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
-        checkUser(event.getAuthor());
-        // Get command
-        if (event.isWebhookMessage() || event.getAuthor().isBot()) return;
-        if (!event.getMessage().getContentStripped().startsWith(PREFIX)) return;
-        String command = event.getMessage().getContentStripped().split(" ",2)[0].substring(1).toLowerCase();
-        if (!reg.commandExists(command)) return;
-        Command c = reg.getCommand(command);
-        if (!c.isEnabled()) return;
-
-        // Log command call?
-        c.onGuildMessageReceived(event.getJDA(), event.getMember(), event.getChannel(), event.getMessage());
+        Command c = getCommand(event.getAuthor(), event.getMessage());
+        if (c != null)
+            c.onGuildMessageReceived(event.getJDA(), Objects.requireNonNull(event.getMember()), event.getChannel(), event.getMessage());
     }
 
     @Override
     public void onPrivateMessageReceived(PrivateMessageReceivedEvent event) {
-        checkUser(event.getAuthor());
-        // Get command
-        if (event.getAuthor().isBot()) return;
-        if (!event.getMessage().getContentStripped().startsWith(PREFIX)) return;
-        String command = event.getMessage().getContentStripped().split(" ",2)[0].substring(1).toLowerCase();
-        if (!reg.commandExists(command)) return;
-        Command c = reg.getCommand(command);
-        if (!c.isEnabled()) return;
+        Command c = getCommand(event.getAuthor(), event.getMessage());
+        if (c != null)
+            c.onPrivateMessageReceived(event.getJDA(), event.getAuthor(), event.getChannel(), event.getMessage());
+    }
 
-        // Log command call?
-        c.onPrivateMessageReceived(event.getJDA(), event.getAuthor(), event.getChannel(), event.getMessage());
+    /**
+     * Returns the command that will be executed
+     * @return Command if it should be executed
+     *          or null if a command should not be executed
+     */
+    private Command getCommand(User author, Message m) {
+        UserEntity ue = new UserEntity(author);
+        if (!ue.isOwner() && ue.isBanned()) return null;
+        // Get command
+        if (author.isBot()) return null;
+        if (!m.getContentStripped().startsWith(PREFIX)) return null;
+        String command = m.getContentStripped().split(" ",2)[0].substring(1).toLowerCase();
+        if (!reg.commandExists(command)) return null;
+        else {
+            // TODO log message
+        }
+        Command c = reg.getCommand(command);
+        if (!c.isEnabled()) return null;
+
+        return c;
     }
 
     public boolean disableCommand(String commandName) { //TODO make command for this
@@ -59,10 +68,5 @@ public class CommandHandler extends ListenerAdapter {
         if (!this.reg.commandExists(commandName.toLowerCase())) return false;
         else this.reg.getCommand(commandName.toLowerCase()).enable();
         return true;
-    }
-
-    private void checkUser(User u) {
-        new UserEntity(u);
-        //TODO check if banned/muted
     }
 }
