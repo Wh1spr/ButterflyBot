@@ -36,6 +36,7 @@ public class UserEntity extends BasicUpdateItem<User> {
     }
 
     public boolean isBanned() {
+        if (this.isOwner()) return false;
         boolean banned = this.getDocument().getBoolean("banned", false);
         return banned;
     }
@@ -65,6 +66,13 @@ public class UserEntity extends BasicUpdateItem<User> {
     @Override
     protected void update(User item) {
         this.update(Updates.combine(Updates.set("username", item.getAsTag())));
+    }
+
+    /**
+     * Returns whether or not this user is a bot owner
+     */
+    public boolean isOwner() {
+        return this.getReservedDocument(0L).getList("owners", Long.class).contains(this.getId());
     }
 
 }
