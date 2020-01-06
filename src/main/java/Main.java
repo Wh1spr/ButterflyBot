@@ -9,7 +9,6 @@ public class Main {
     public static void main(String[] args) throws LoginException, IOException {
         Properties props = new Properties();
         props.load(new FileInputStream("butterfly.properties"));
-
-        new ButterflyBot(props.getProperty("butterfly.token"), props.getProperty("db.connection"), props.getProperty("db.defaultpermspath"));
+        new ButterflyBot(props.getProperty("butterfly.token"), props.getProperty("db.connection"), props.getProperty("butterfly.defaultpermspath"));
     }
 }
