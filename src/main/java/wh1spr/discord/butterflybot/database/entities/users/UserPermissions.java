@@ -6,6 +6,7 @@ import wh1spr.discord.butterflybot.ButterflyBot;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,10 +18,10 @@ public class UserPermissions {
     private static final List<String> defaultPerms = new ArrayList<>();
     private static ButterflyBot bot;
 
-    public static void loadDefaultPermissions(ButterflyBot b) {
+    public static void loadDefaultPermissions(ButterflyBot b, Path permissionsPath) {
         bot = b;
         try {
-            defaultPerms.addAll(Files.readAllLines(Paths.get("defaultpermissions.txt")));
+            defaultPerms.addAll(Files.readAllLines(permissionsPath));
         } catch (IOException e) {
             log.info("Couldn't find defaultpermissions.txt. No default permissions loaded...");
         }

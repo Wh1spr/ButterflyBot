@@ -11,6 +11,7 @@ import wh1spr.discord.butterflybot.database.Database;
 import wh1spr.discord.butterflybot.database.entities.users.UserPermissions;
 
 import javax.security.auth.login.LoginException;
+import java.nio.file.Paths;
 
 public class ButterflyBot extends ListenerAdapter {
 
@@ -19,8 +20,13 @@ public class ButterflyBot extends ListenerAdapter {
     private CommandHandler handler;
 
     public ButterflyBot(String token, String dbURL) throws LoginException {
+        this(token, dbURL, null);
+    }
+
+    public ButterflyBot(String token, String dbURL, String defaultPermsPath) throws LoginException {
         Database.createInstance(dbURL);
-        UserPermissions.loadDefaultPermissions(this);
+        if (defaultPermsPath != null)
+            UserPermissions.loadDefaultPermissions(this, Paths.get(defaultPermsPath));
         this.registerCommands();
         this.jda = new JDABuilder(token)
                 .addEventListeners(this, this.handler)
