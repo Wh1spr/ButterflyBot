@@ -56,7 +56,7 @@ public abstract class Command {
     public String getHelpMsg() {
         return NO_HELP;
     }
-    public abstract String getUsageMsg();
+    public abstract String getUsageMsg(); // usage without command's name, prefix and the space
 
     protected final void sendIncorrectUse(Message m) {
         m.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(170, 100, 0))
@@ -66,5 +66,9 @@ public abstract class Command {
     protected final void sendFailedMessage(Message m, String message) {
         m.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(170, 0, 0))
                 .setDescription(message).build()).queue();
+    }
+
+    protected final void checkmark(Message msg) {
+        msg.addReaction("\u2705").queue();
     }
 }
