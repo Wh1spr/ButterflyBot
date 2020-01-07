@@ -54,7 +54,7 @@ public class EchoCommand extends Command {
                 super.sendFailedMessage(msg, "I don't have permission to do that");
             } else {
                 to.sendMessage(sentence).complete();
-                msg.addReaction("\u2705").queue();
+                checkmark(msg);
             }
         } else {
             if (!ue.hasPermission("fun.echo.normal")) return;
