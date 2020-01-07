@@ -34,8 +34,20 @@ public abstract class BasicItem {
         return Filters.eq("_id", this.getId());
     }
 
+    private Document doc = null;
+    private boolean docLocked = false;
+    protected synchronized final void lockDocument() {
+        this.docLocked = true;
+    }
+    protected synchronized final void openDocument() {
+        this.docLocked = false;
+    }
     public Document getDocument() {
-        return (Document) this.getCollection().find(getFilter()).first();
+        if (docLocked && doc != null) return doc;
+        else {
+            doc = (Document) this.getCollection().find(getFilter()).first();
+            return doc;
+        }
     }
 
     public boolean exists(Long id) {

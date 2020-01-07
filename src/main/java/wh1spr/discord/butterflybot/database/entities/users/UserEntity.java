@@ -4,6 +4,9 @@ import com.mongodb.client.model.Updates;
 import net.dv8tion.jda.api.entities.User;
 import wh1spr.discord.butterflybot.database.BasicUpdateItem;
 
+import java.util.Arrays;
+import java.util.List;
+
 //TODO documentation
 public class UserEntity extends BasicUpdateItem<User> {
 
@@ -28,10 +31,28 @@ public class UserEntity extends BasicUpdateItem<User> {
         if (this.isBanned()) return false;
         if (up == null) up = new UserPermissions(this);
 
-        if (this.up.isTakenPerm(permission)) return false;
-        if (this.up.isDefaultPerm(permission)) return true;
-        if (this.up.isGivenPerm(permission)) return true;
-        return false;
+        boolean res = false;
+        this.lockDocument();
+        if (this.up.isTakenPerm(permission)) res = false;
+        if (this.up.isDefaultPerm(permission)) res = true;
+        if (this.up.isGivenPerm(permission)) res = true;
+        this.openDocument();
+        return res;
+    }
+    public boolean hasPermissions(String... permissions) {
+        boolean res = true;
+        this.lockDocument();
+        for (String perm : permissions) {
+            if (!hasPermission(perm)) {
+                res = false;
+                break;
+            }
+        }
+        this.openDocument();
+        return res;
+    }
+    public boolean hasPermissions(List<String> permissions) {
+        return hasPermission(Arrays.toString(permissions.toArray()));
     }
 
     public boolean isBanned() {

@@ -32,11 +32,11 @@ public abstract class Command {
     }
     public abstract void onPrivateMessageReceived(JDA jda, User author, MessageChannel channel, Message msg);
 
-    public void enable() {
+    public synchronized void enable() {
         this.enabled = true;
     }
 
-    public void disable() {
+    public synchronized void disable() {
         this.enabled = false;
     }
 
