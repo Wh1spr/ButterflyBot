@@ -1,6 +1,7 @@
 package wh1spr.discord.butterflybot.command;
 
 import wh1spr.discord.butterflybot.command.defaults.DisableCommand;
+import wh1spr.discord.butterflybot.command.defaults.EnableCommand;
 
 import java.util.*;
 
@@ -17,6 +18,7 @@ public class CommandRegistry {
          permissions are bot.*
          */
         this.registerCommand("disablecommand", new DisableCommand(this), "dcmd");
+        this.registerCommand("enablecommand", new EnableCommand(this), "ecmd");
     }
 
     /**
