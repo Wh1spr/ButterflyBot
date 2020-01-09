@@ -1,5 +1,6 @@
 package wh1spr.discord.butterflybot.command;
 
+import wh1spr.discord.butterflybot.command.defaults.BotBanCommand;
 import wh1spr.discord.butterflybot.command.defaults.DisableCommand;
 import wh1spr.discord.butterflybot.command.defaults.EnableCommand;
 
@@ -14,11 +15,13 @@ public class CommandRegistry {
     public CommandRegistry() {
         /*
          TODO Register required commands
-         these are help, enablecommand, disablecommand, botban, botpardon, eval, perms (add/remove), shutdown
+         these are help, botban, botpardon, eval, perms (add/remove/reset), shutdown
          permissions are bot.*
          */
         this.registerCommand("disablecommand", new DisableCommand(this), "dcmd");
         this.registerCommand("enablecommand", new EnableCommand(this), "ecmd");
+
+        this.registerCommand("botban", new BotBanCommand(), "bban");
     }
 
     /**
