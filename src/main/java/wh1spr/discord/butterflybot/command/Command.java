@@ -65,7 +65,7 @@ public abstract class Command {
 
     protected final void sendFailedMessage(Message m, String message) {
         m.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(170, 0, 0))
-                .setDescription(message).build()).queue();
+                .setTitle(message).build()).queue();
     }
 
     protected final void checkmark(Message msg) {
