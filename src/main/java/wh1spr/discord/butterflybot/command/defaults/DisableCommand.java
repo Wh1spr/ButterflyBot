@@ -36,6 +36,7 @@ public class DisableCommand extends Command {
         }
 
         List<String> toDisable = new ArrayList<>();
+        List<String> wasDisabled = new ArrayList<>();
         List<String> cantDisable = new ArrayList<>(); // by checking perm, bot.* cant be
         List<String> noPerm = new ArrayList<>();
         List<String> noExist = new ArrayList<>();
@@ -55,8 +56,12 @@ public class DisableCommand extends Command {
                         }
                     }
                     if (canDisable) {
-                        cmd.disable();
-                        toDisable.add(cname);
+                        if (cmd.isEnabled()) {
+                            cmd.disable();
+                            toDisable.add(cname);
+                        } else {
+                            wasDisabled.add(cname);
+                        }
                     }
                 }
             }
@@ -68,6 +73,10 @@ public class DisableCommand extends Command {
         if (toDisable.size() != 0) {
             List<String> names = new ArrayList<>();
             eb.addField("Disabled", "`" + listToString(toDisable) + "`", false);
+        }
+        if (wasDisabled.size() != 0) {
+            List<String> names = new ArrayList<>();
+            eb.addField("Already Disabled", "`" + listToString(wasDisabled) + "`", false);
         }
         if (cantDisable.size() != 0) {
             List<String> names = new ArrayList<>();
