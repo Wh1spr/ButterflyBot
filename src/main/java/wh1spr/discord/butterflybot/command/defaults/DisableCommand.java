@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DisableCommand extends Command {
 
-    private CommandRegistry reg = null;
+    private CommandRegistry reg;
 
     public DisableCommand(CommandRegistry reg) {
         super("bot.disablecommand");
@@ -71,33 +71,28 @@ public class DisableCommand extends Command {
         EmbedBuilder eb = new EmbedBuilder().setTitle(":warning: Disable Command Output")
                 .setColor(new Color(0,124,215));
         if (toDisable.size() != 0) {
-            List<String> names = new ArrayList<>();
             eb.addField("Disabled", "`" + listToString(toDisable) + "`", false);
         }
         if (wasDisabled.size() != 0) {
-            List<String> names = new ArrayList<>();
             eb.addField("Already Disabled", "`" + listToString(wasDisabled) + "`", false);
         }
         if (cantDisable.size() != 0) {
-            List<String> names = new ArrayList<>();
             eb.addField("Not Disableable", "`" + listToString(cantDisable) + "`", false);
         }
         if (noPerm.size() != 0) {
-            List<String> names = new ArrayList<>();
             eb.addField("No Permission", "`" + listToString(noPerm) + "`", false);
         }
         if (noExist.size() != 0) {
-            List<String> names = new ArrayList<>();
-            eb.addField("Non-Existent", "`" + listToString(noExist) + "`", false);
+            eb.addField("Does Not Exist", "`" + listToString(noExist) + "`", false);
         }
 
         channel.sendMessage(eb.build()).queue();
     }
 
     private String listToString(List<String> list) {
-        String res = "";
+        StringBuilder res = new StringBuilder();
         for (String s : list) {
-            res += ", " + s;
+            res.append(", ").append(s);
         }
         return res.substring(2);
     }
