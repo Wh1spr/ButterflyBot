@@ -1,8 +1,6 @@
 package wh1spr.discord.butterflybot.command;
 
-import wh1spr.discord.butterflybot.command.defaults.BotBanCommand;
-import wh1spr.discord.butterflybot.command.defaults.DisableCommand;
-import wh1spr.discord.butterflybot.command.defaults.EnableCommand;
+import wh1spr.discord.butterflybot.command.defaults.*;
 
 import java.util.*;
 
@@ -22,6 +20,7 @@ public class CommandRegistry {
         this.registerCommand("enablecommand", new EnableCommand(this), "ecmd");
 
         this.registerCommand("botban", new BotBanCommand(), "bban");
+        this.registerCommand("botpardon", new BotPardonCommand(), "bpardon");
     }
 
     /**
