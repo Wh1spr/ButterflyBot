@@ -13,7 +13,7 @@ public class CommandRegistry {
     public CommandRegistry() {
         /*
          TODO Register required commands
-         these are help, botban, botpardon, eval, perms (add/remove/reset), shutdown
+         these are help, eval, perms (add/remove/reset), shutdown
          permissions are bot.*
          */
         this.registerCommand("disablecommand", new DisableCommand(this), "dcmd");
@@ -21,6 +21,8 @@ public class CommandRegistry {
 
         this.registerCommand("botban", new BotBanCommand(), "bban");
         this.registerCommand("botpardon", new BotPardonCommand(), "bpardon");
+
+        this.registerCommand("eval", new EvalCommand());
     }
 
     /**
