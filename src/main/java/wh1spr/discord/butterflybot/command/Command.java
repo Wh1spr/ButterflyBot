@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 
 import java.awt.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,11 +16,10 @@ public abstract class Command {
     private boolean enabled = true;
     private static final String NO_HELP = "No help was found for this command.";
 
-    protected Command(String... permissions) {
+    protected Command(String permission, String... permissions) {
         HashSet<String> p = new HashSet<String>();
-        for (int i = 0; i < permissions.length; i++) {
-            p.add(permissions[i]);
-        }
+        p.add(permission);
+        Collections.addAll(p, permissions);
         this.permissions = p;
     }
 
@@ -47,6 +47,10 @@ public abstract class Command {
     protected final String stripCommand(Message m) {
         if (m.getContentStripped().split(" ").length < 2) return "";
         return m.getContentStripped().split(" ",2)[1];
+    }
+    protected final String stripCommandRaw(Message m) {
+        if (m.getContentRaw().split(" ").length < 2) return "";
+        return m.getContentRaw().split(" ",2)[1];
     }
     protected final String getUsedCommand(Message m) {
         return m.getContentStripped().split(" ",2)[0];
