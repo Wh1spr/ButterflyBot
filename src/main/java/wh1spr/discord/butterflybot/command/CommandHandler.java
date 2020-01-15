@@ -57,16 +57,4 @@ public class CommandHandler extends ListenerAdapter {
 
         return c;
     }
-
-    public boolean disableCommand(String commandName) { //TODO make command for this
-        if (!this.reg.commandExists(commandName.toLowerCase())) return false;
-        else this.reg.getCommand(commandName.toLowerCase()).disable();
-        return true;
-    }
-
-    public boolean enableCommand(String commandName) { //TODO make command for this
-        if (!this.reg.commandExists(commandName.toLowerCase())) return false;
-        else this.reg.getCommand(commandName.toLowerCase()).enable();
-        return true;
-    }
 }

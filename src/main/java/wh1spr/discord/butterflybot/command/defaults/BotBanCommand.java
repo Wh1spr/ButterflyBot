@@ -25,7 +25,7 @@ public class BotBanCommand extends Command {
             this.sendIncorrectUse(msg); return;
         }
 
-        UserEntity mentioned = null;
+        UserEntity mentioned;
         if (msg.getMentionedUsers().size() == 1) {
             mentioned = new UserEntity(msg.getMentionedUsers().get(0));
         } else {

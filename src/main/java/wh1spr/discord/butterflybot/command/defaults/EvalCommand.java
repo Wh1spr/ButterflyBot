@@ -2,7 +2,6 @@ package wh1spr.discord.butterflybot.command.defaults;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.*;
 import wh1spr.discord.butterflybot.command.Command;
 import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
