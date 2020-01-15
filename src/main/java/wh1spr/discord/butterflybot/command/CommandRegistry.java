@@ -16,6 +16,7 @@ public class CommandRegistry {
          these are help, perms (add/remove/reset), shutdown, info
          permissions are bot.*
          */
+        this.registerCommand(true, "shutdown", new ShutdownCommand());
         this.registerCommand(true, "disablecommand", new DisableCommand(this), "dcmd");
         this.registerCommand(true, "enablecommand", new EnableCommand(this), "ecmd");
 
