@@ -1,6 +1,7 @@
 package wh1spr.discord.butterflybot.command.defaults;
 
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
@@ -17,12 +18,15 @@ public class ShutdownCommand extends Command {
     public void onPrivateMessageReceived(JDA jda, User author, MessageChannel channel, Message msg) {
         UserEntity ue = new UserEntity(author);
         if (ue.hasPermission("bot.shutdown")) {
-            if (this.stripCommand(msg).isEmpty()) {
+            if (!this.stripCommand(msg).isEmpty()) {
                 this.sendIncorrectUse(msg);
                 return;
             }
             // For now, I don't need to save anything or the like, so just exit.
-            jda.shutdownNow();
+            jda.shutdown();
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {}
             System.exit(0);
         }
     }
