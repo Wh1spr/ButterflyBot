@@ -34,8 +34,8 @@ public class UserEntity extends BasicUpdateItem<User> {
         boolean res = false;
         this.lockDocument();
         if (this.up.isTakenPerm(permission)) res = false;
-        if (this.up.isDefaultPerm(permission)) res = true;
-        if (this.up.isGivenPerm(permission)) res = true;
+        else if (this.up.isDefaultPerm(permission)) res = true;
+        else if (this.up.isGivenPerm(permission)) res = true;
         this.openDocument();
         return res;
     }
