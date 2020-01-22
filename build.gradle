@@ -3,7 +3,6 @@ plugins {
 }
 
 group 'wh1spr.discord'
-version '0.1-53'
 
 sourceCompatibility = 1.8
 
@@ -25,7 +24,6 @@ task makeJar(type: Jar) {
                 'Main-Class': 'wh1spr.discord.butterflybot.Main'
     }
     baseName = 'ButterFlyBot'
-    jar.archiveName = "${jar.baseName}.${jar.extension}"
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
