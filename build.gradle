@@ -21,7 +21,7 @@ dependencies {
 task makeJar(type: Jar) {
     manifest {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
-                'Main-Class': 'wh1spr.discord.butterflybot.Main'
+                'Main-Class': 'Main'
     }
     baseName = 'ButterFlyBot'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
