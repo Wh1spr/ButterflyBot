@@ -23,7 +23,7 @@ task makeJar(type: Jar) {
         attributes 'Implementation-Title': 'Gradle Jar File Example',
                 'Main-Class': 'Main'
     }
-    baseName = 'ButterFlyBot'
+    baseName = 'ButterflyBot'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
