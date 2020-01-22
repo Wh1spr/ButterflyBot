@@ -34,7 +34,7 @@ public class BotBanCommand extends Command {
                 return;
             } else {
                 User u = jda.getUserById(this.stripCommand(msg));
-                if (u == null) {
+                if (u == null) { // FIXME not just if jda can see the user, make sure we don't know this user either!
                     this.sendFailedMessage(msg,"I don't know this ID, I'm not omniscient just yet.");
                     return;
                 } else {

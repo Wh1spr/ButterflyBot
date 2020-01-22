@@ -31,11 +31,11 @@ public class UserEntity extends BasicUpdateItem<User> {
         if (this.isBanned()) return false;
         if (up == null) up = new UserPermissions(this);
 
-        boolean res = false;
+        boolean res;
         this.lockDocument();
         if (this.up.isTakenPerm(permission)) res = false;
         else if (this.up.isDefaultPerm(permission)) res = true;
-        else if (this.up.isGivenPerm(permission)) res = true;
+        else res = this.up.isGivenPerm(permission);
         this.openDocument();
         return res;
     }
