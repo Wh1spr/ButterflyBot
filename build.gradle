@@ -25,6 +25,7 @@ task makeJar(type: Jar) {
                 'Main-Class': 'wh1spr.discord.butterflybot.Main'
     }
     baseName = 'ButterFlyBot'
+    jar.archiveName = "${jar.baseName}.${jar.extension}"
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
