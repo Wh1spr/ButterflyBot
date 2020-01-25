@@ -19,16 +19,19 @@ public class Database {
         return INSTANCE;
     }
     public static Database createInstance(String url) {
-        INSTANCE = new Database(url);
+        return createInstance(url, "ButterflyBot");
+    }
+    public static Database createInstance(String url, String dbName) {
+        INSTANCE = new Database(url, dbName);
         return INSTANCE;
     }
 
     private MongoClient client = null;
     private MongoDatabase db = null;
 
-    public Database(String url) {
+    public Database(String url, String dbName) {
         this.client = MongoClients.create(url);
-        this.db = this.client.getDatabase("ButterflyBot");
+        this.db = this.client.getDatabase(dbName);
     }
 
     public MongoCollection<Document> getCollection(String collectionName) {

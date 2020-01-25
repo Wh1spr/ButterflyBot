@@ -19,27 +19,24 @@ public class ButterflyBot extends ListenerAdapter {
     private CommandRegistry reg;
     private CommandHandler handler;
 
-    public ButterflyBot(String token, String dbURL) throws LoginException {
-        this(token, dbURL, null);
-    }
-
-    public ButterflyBot(String token, String dbURL, String defaultPermsPath) throws LoginException {
-        Database.createInstance(dbURL);
+    public ButterflyBot(String token, String prefix, String dbURL, String dbName, String defaultPermsPath) throws LoginException {
+        if (prefix != null && prefix.contains(" ")) throw new IllegalArgumentException("Prefix can not contain a space");
+        Database.createInstance(dbURL, dbName);
         if (defaultPermsPath != null)
             UserPermissions.loadDefaultPermissions(this, Paths.get(defaultPermsPath));
-        this.registerCommands();
+        this.registerCommands(prefix);
         this.jda = new JDABuilder(token)
                 .addEventListeners(this, this.handler)
                 .build();
     }
 
-    private void registerCommands() {
+    private void registerCommands(String prefix) {
         this.reg = new CommandRegistry();
 
         //register commands
         reg.registerCommand("echo", new EchoCommand());
 
-        this.handler = new CommandHandler(".", reg);
+        this.handler = new CommandHandler(prefix==null?".":prefix, reg);
     }
 
     public CommandHandler getCommandHandler() {
