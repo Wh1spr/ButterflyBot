@@ -51,7 +51,7 @@ public abstract class BasicItem {
     }
 
     public boolean exists(Long id) {
-        return this.getCollection().find(Filters.eq("_id", this.getId())).first() != null;
+        return this.getCollection().find(Filters.eq("_id", id)).first() != null;
     }
 
     public static boolean exists(String collectionName, Long id) {
