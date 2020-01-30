@@ -7,7 +7,7 @@ import java.util.*;
 public class CommandRegistry {
 
     private Map<String, Command> commands = new HashMap<>();
-    private Map<String, Command> reqCmds = new HashMap<>();
+    private Map<String, Command> aliases = new HashMap<>();
     private Set<String> perms = new HashSet<>();
 
     public CommandRegistry() {
@@ -16,14 +16,14 @@ public class CommandRegistry {
          these are help, perms (add/remove/reset), info
          permissions are bot.*
          */
-        this.registerCommand(true, "shutdown", new ShutdownCommand());
-        this.registerCommand(true, "disablecommand", new DisableCommand(this), "dcmd");
-        this.registerCommand(true, "enablecommand", new EnableCommand(this), "ecmd");
+        this.registerCommand("shutdown", new ShutdownCommand());
+        this.registerCommand("disablecommand", new DisableCommand(this), "dcmd");
+        this.registerCommand("enablecommand", new EnableCommand(this), "ecmd");
 
-        this.registerCommand(true, "botban", new BotBanCommand(), "bban");
-        this.registerCommand(true, "botpardon", new BotPardonCommand(), "bpardon");
+        this.registerCommand("botban", new BotBanCommand(), "bban");
+        this.registerCommand("botpardon", new BotPardonCommand(), "bpardon");
 
-        this.registerCommand(true, "eval", new EvalCommand());
+        this.registerCommand("eval", new EvalCommand());
     }
 
     /**
@@ -43,15 +43,11 @@ public class CommandRegistry {
      *          A command can only register new permissions.
      */
     public void registerCommand(String commandName, Command command, String... aliases) {
-        registerCommand(false, commandName, command, aliases);
-    }
-
-    private void registerCommand(boolean isReq, String commandName, Command command, String... aliases) {
-        if (commands.containsKey(commandName.toLowerCase()) || reqCmds.containsKey(commandName.toLowerCase()))
+        if (commands.containsKey(commandName.toLowerCase()) || this.aliases.containsKey(commandName.toLowerCase()))
             throw new IllegalArgumentException("CommandName already registered.");
         else {
             for (String alias : aliases) {
-                if (commands.containsKey(alias.toLowerCase()) || reqCmds.containsKey(commandName.toLowerCase()))
+                if (commands.containsKey(alias.toLowerCase()) || this.aliases.containsKey(commandName.toLowerCase()))
                     throw new IllegalArgumentException("Alias '" + alias + "' already registered.");
             }
         }
@@ -59,17 +55,9 @@ public class CommandRegistry {
             if (this.permissionExists(perm))
                 throw new IllegalArgumentException("Permission '" + perm + "' already registered.");
         }
-
-        if (isReq) {
-            reqCmds.put(commandName.toLowerCase(), command);
-            for (String alias : aliases) {
-                reqCmds.put(alias.toLowerCase(), command);
-            }
-        } else {
-            commands.put(commandName.toLowerCase(), command);
-            for (String alias : aliases) {
-                commands.put(alias.toLowerCase(), command);
-            }
+        commands.put(commandName.toLowerCase(), command);
+        for (String alias : aliases) {
+            this.aliases.put(alias.toLowerCase(), command);
         }
         this.perms.addAll(command.getPermissions());
     }
@@ -83,7 +71,7 @@ public class CommandRegistry {
         if (this.commands.containsKey(commandName.toLowerCase()))
             return this.commands.get(commandName.toLowerCase());
         else
-            return this.reqCmds.get(commandName.toLowerCase());
+            return this.aliases.get(commandName.toLowerCase());
     }
 
     /**
@@ -93,7 +81,7 @@ public class CommandRegistry {
      */
     public boolean commandExists(String commandName) {
         return this.commands.containsKey(commandName.toLowerCase())
-                || this.reqCmds.containsKey(commandName.toLowerCase());
+                || this.aliases.containsKey(commandName.toLowerCase());
     }
 
     /**
@@ -109,6 +97,6 @@ public class CommandRegistry {
      * Returns the amount of registered commands.
      */
     public int size() {
-        return commands.size() + reqCmds.size();
+        return commands.size();
     }
 }
