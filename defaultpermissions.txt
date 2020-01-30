@@ -1,1 +1,2 @@
 fun.echo.normal
+bot.help

@@ -42,10 +42,10 @@ public class CommandHandler extends ListenerAdapter {
      *          or null if a command should not be executed
      */
     private Command getCommand(User author, Message m) {
+        if (author.isBot()) return null;
         UserEntity ue = new UserEntity(author);
         if (!ue.isOwner() && ue.isBanned()) return null;
         // Get command
-        if (author.isBot()) return null;
         if (!m.getContentStripped().startsWith(PREFIX)) return null;
         String command = m.getContentStripped().split(" ",2)[0].substring(1).toLowerCase();
         if (!reg.commandExists(command)) return null;

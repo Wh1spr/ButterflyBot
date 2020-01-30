@@ -13,7 +13,7 @@ public class CommandRegistry {
     public CommandRegistry() {
         /*
          TODO Register required commands
-         these are help, perms (add/remove/reset), shutdown, info
+         these are help, perms (add/remove/reset), info
          permissions are bot.*
          */
         this.registerCommand(true, "shutdown", new ShutdownCommand());

@@ -24,7 +24,7 @@ public abstract class Command {
     }
 
     public Set<String> getPermissions() {
-        return this.permissions;
+        return Collections.unmodifiableSet(this.permissions);
     }
 
     public void onGuildMessageReceived(JDA jda, Member author, TextChannel channel, Message msg) {
@@ -63,7 +63,11 @@ public abstract class Command {
     public abstract String getUsageMsg(); // usage without command's name, prefix and the space
 
     protected final void sendIncorrectUse(Message m) {
-        m.getChannel().sendMessage(new EmbedBuilder().setColor(new Color(170, 100, 0))
+        this.sendIncorrectUse(m.getChannel(), m);
+    }
+
+    protected final void sendIncorrectUse(MessageChannel c, Message m) {
+        c.sendMessage(new EmbedBuilder().setColor(new Color(170, 100, 0))
                 .setTitle(String.format("Usage: `%s %s`", this.getUsedCommand(m), this.getUsageMsg())).build()).queue();
     }
 
