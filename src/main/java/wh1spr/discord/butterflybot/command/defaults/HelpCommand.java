@@ -10,6 +10,7 @@ import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class HelpCommand extends Command {
 
@@ -70,5 +71,6 @@ public class HelpCommand extends Command {
 
     private void buildCmdMap() {
         //create map and stuff
+        Map<String, Command> cmds = this.reg.getCommands();
     }
 }

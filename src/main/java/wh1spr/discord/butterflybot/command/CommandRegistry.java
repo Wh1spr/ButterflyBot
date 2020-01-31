@@ -99,4 +99,11 @@ public class CommandRegistry {
     public int size() {
         return commands.size();
     }
+
+    public Map<String, Command> getCommands() {
+        HashMap<String, Command> cmds = new HashMap<>();
+        cmds.putAll(this.aliases);
+        cmds.putAll(this.commands);
+        return Collections.unmodifiableMap(cmds);
+    }
 }
