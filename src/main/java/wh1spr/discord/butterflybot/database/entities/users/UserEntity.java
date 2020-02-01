@@ -54,6 +54,14 @@ public class UserEntity extends BasicUpdateItem<User> {
     public boolean hasPermissions(List<String> permissions) {
         return hasPermission(Arrays.toString(permissions.toArray()));
     }
+    public boolean hasOneOfPermissions(String... permissions) {
+        for (String perm : permissions) {
+            if (hasPermission(perm)) return true;
+        } return false;
+    }
+    public boolean hasOneOfPermissions(List<String> permissions) {
+        return hasOneOfPermissions(Arrays.toString(permissions.toArray()));
+    }
 
     public boolean isBanned() {
         if (this.isOwner()) return false;
