@@ -123,7 +123,8 @@ public class HelpCommand extends Command {
         //create map and stuff
         Map<String, Command> cmds = this.reg.getCommands(false);
         Map<String, Command> cmds2 = this.reg.getCommands(true);
-        for (String name : cmds.keySet()) {
+
+        for (String name : new TreeSet<>(cmds.keySet())) {
             ArrayList<String> names = new ArrayList<>();
             names.add(name);
             aliases.put(cmds.get(name), names);
@@ -138,11 +139,10 @@ public class HelpCommand extends Command {
             }
         }
 
-        for (String name : cmds2.keySet()) {
+        for (String name : new TreeSet<>(cmds2.keySet())) {
             if (!cmds.containsKey(name))
                 aliases.get(cmds2.get(name)).add(name);
         }
-        // TODO Sort by name pls
     }
 
 }
