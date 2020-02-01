@@ -21,8 +21,10 @@ public class EvalCommand extends Command {
     public void onGuildMessageReceived(JDA jda, Member author, TextChannel channel, Message msg) {
         UserEntity ue = new UserEntity(author.getUser());
         if (!ue.hasPermission("bot.eval")) return;
-        //make scriptengine, put everything in there, then call evaluate
-        //check perms of course
+        if (this.stripCommand(msg).isEmpty()) {
+            sendIncorrectUse(msg);
+            return;
+        }
         ScriptEngine se = new ScriptEngineManager().getEngineByName("nashorn");
         se.put("guild", author.getGuild());
         this.evaluateScriptEngine(this.fillEngine(se, jda, author.getUser(), channel, msg), msg);
@@ -32,6 +34,10 @@ public class EvalCommand extends Command {
     public void onPrivateMessageReceived(JDA jda, User author, MessageChannel channel, Message msg) {
         UserEntity ue = new UserEntity(author);
         if (!ue.hasPermission("bot.eval")) return;
+        if (this.stripCommand(msg).isEmpty()) {
+            sendIncorrectUse(msg);
+            return;
+        }
         ScriptEngine se = new ScriptEngineManager().getEngineByName("nashorn");
         this.evaluateScriptEngine(this.fillEngine(se, jda, author, channel, msg), msg);
     }
@@ -69,6 +75,11 @@ public class EvalCommand extends Command {
 
     @Override
     public String getUsageMsg() {
-        return null;
+        return "<nashorn script code>";
+    }
+
+    @Override
+    public String getHelpMsg() {
+        return "Evaluates Nashorn code.";
     }
 }
