@@ -79,6 +79,33 @@ public class HelpCommand extends Command {
             channel.sendMessage(eb.build()).queue();
         } else {
             // .help command
+            Command cmd = reg.getCommand(arg);
+            if (cmd == null) {
+                this.sendIncorrectUse(channel, msg);
+            } else {
+                eb.setColor(Color.cyan).setDescription(cmd.getHelpMsg())
+                        .setTitle("Help for " + prefix + aliases.get(cmd).get(0));
+                if (!cmd.isEnabled()) eb.setFooter("This command is NOT ENABLED").setColor(new Color(170, 0, 0));
+                else if (!ue.hasOneOfPermissions(cmd.getPermissions()))
+                    eb.setFooter("You do NOT have permission to use this command").setColor(Color.orange);
+                //usage
+                eb.addField("Usage",
+                        String.format("`%s%s %s`", prefix, aliases.get(cmd).get(0), cmd.getUsageMsg()), false);
+                //aliases
+                if (aliases.get(cmd).size() > 1) {
+                    String val = Arrays.toString(aliases.get(cmd).subList(1, aliases.get(cmd).size()).toArray());
+                    val = val.substring(1, val.length()-1);
+                    eb.addField("Aliases", String.format("*%s*", val), true);
+                }
+                //permissions
+                if (ue.hasPermission("*")) {
+                    String val = Arrays.toString(cmd.getPermissions().toArray());
+                    val = val.substring(1, val.length()-1);
+                    eb.addField("Permissions", String.format("*%s*", val), true);
+                }
+
+                channel.sendMessage(eb.build()).queue();
+            }
         }
 
 
@@ -115,6 +142,7 @@ public class HelpCommand extends Command {
             if (!cmds.containsKey(name))
                 aliases.get(cmds2.get(name)).add(name);
         }
+        // TODO Sort by name pls
     }
 
 }
