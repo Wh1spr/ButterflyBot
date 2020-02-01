@@ -8,10 +8,8 @@ import wh1spr.discord.butterflybot.command.CommandRegistry;
 import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class HelpCommand extends Command {
 
@@ -67,12 +65,15 @@ public class HelpCommand extends Command {
             // start with strings for the commands
             for (String cat : catCommands.keySet()) {
                 List<Command> cmds = catCommands.get(cat);
-                String value = "";
+                StringBuilder value = new StringBuilder();
                 for (Command cmd : cmds) {
-                    value += prefix + aliases.get(cmd).get(0) + "\n";
+                    if (all || (cmd.isEnabled() &&
+                            ue.hasOneOfPermissions(Arrays.toString(cmd.getPermissions().toArray()))))
+                    value.append(prefix).append(aliases.get(cmd).get(0))
+                            .append(cmd.isEnabled() ? "" : " :x:").append("\n");
                 }
                 cat = cat.substring(0, 1).toUpperCase() + cat.substring(1);
-                eb.addField(cat, value.strip(), true);
+                eb.addField(cat, value.toString().strip(), true);
             }
             channel.sendMessage(eb.build()).queue();
         } else {
@@ -89,23 +90,29 @@ public class HelpCommand extends Command {
 
     // If there's a better way that I didn't think off, please make a pull request for it :)
     private void buildCmdMap() {
+        this.catCommands = new HashMap<>();
+        this.aliases = new HashMap<>();
         //create map and stuff
         Map<String, Command> cmds = this.reg.getCommands(false);
         Map<String, Command> cmds2 = this.reg.getCommands(true);
         for (String name : cmds.keySet()) {
-            cmds2.remove(name);
             ArrayList<String> names = new ArrayList<>();
             names.add(name);
             aliases.put(cmds.get(name), names);
 
             String category = cmds.get(name).getPermissions().iterator().next().split("\\.")[0];
-            ArrayList<Command> commands = new ArrayList<>();
-            commands.add(cmds.get(name));
-            catCommands.put(category, commands);
+            if (!catCommands.containsKey(category)) {
+                ArrayList<Command> commands = new ArrayList<>();
+                commands.add(cmds.get(name));
+                catCommands.put(category, commands);
+            } else {
+                catCommands.get(category).add(cmds.get(name));
+            }
         }
 
         for (String name : cmds2.keySet()) {
-            aliases.get(cmds2.get(name)).add(name);
+            if (!cmds.containsKey(name))
+                aliases.get(cmds2.get(name)).add(name);
         }
     }
 
