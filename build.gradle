@@ -4,8 +4,6 @@ plugins {
 
 group 'wh1spr.discord'
 
-sourceCompatibility = 1.8
-
 repositories {
     jcenter()
 }
