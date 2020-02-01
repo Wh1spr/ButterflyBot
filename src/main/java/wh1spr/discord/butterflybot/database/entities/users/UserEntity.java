@@ -4,8 +4,7 @@ import com.mongodb.client.model.Updates;
 import net.dv8tion.jda.api.entities.User;
 import wh1spr.discord.butterflybot.database.BasicUpdateItem;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 //TODO documentation
 public class UserEntity extends BasicUpdateItem<User> {
@@ -32,11 +31,9 @@ public class UserEntity extends BasicUpdateItem<User> {
         if (up == null) up = new UserPermissions(this);
 
         boolean res;
-        this.lockDocument();
         if (this.up.isTakenPerm(permission)) res = false;
         else if (this.up.isDefaultPerm(permission)) res = true;
         else res = this.up.isGivenPerm(permission);
-        this.openDocument();
         return res;
     }
     public boolean hasPermissions(String... permissions) {
@@ -51,16 +48,16 @@ public class UserEntity extends BasicUpdateItem<User> {
         this.openDocument();
         return res;
     }
-    public boolean hasPermissions(List<String> permissions) {
-        return hasPermission(Arrays.toString(permissions.toArray()));
+    public boolean hasPermissions(Set<String> permissions) {
+        return hasPermissions(permissions.toArray(new String[0]));
     }
     public boolean hasOneOfPermissions(String... permissions) {
         for (String perm : permissions) {
             if (hasPermission(perm)) return true;
         } return false;
     }
-    public boolean hasOneOfPermissions(List<String> permissions) {
-        return hasOneOfPermissions(Arrays.toString(permissions.toArray()));
+    public boolean hasOneOfPermissions(Set<String> permissions) {
+        return hasOneOfPermissions(permissions.toArray(new String[0]));
     }
 
     public boolean isBanned() {
