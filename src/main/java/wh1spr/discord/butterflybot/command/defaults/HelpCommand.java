@@ -68,12 +68,13 @@ public class HelpCommand extends Command {
                 StringBuilder value = new StringBuilder();
                 for (Command cmd : cmds) {
                     if (all || (cmd.isEnabled() &&
-                            ue.hasOneOfPermissions(Arrays.toString(cmd.getPermissions().toArray()))))
+                            ue.hasOneOfPermissions(cmd.getPermissions())))
                     value.append(prefix).append(aliases.get(cmd).get(0))
                             .append(cmd.isEnabled() ? "" : " :x:").append("\n");
                 }
                 cat = cat.substring(0, 1).toUpperCase() + cat.substring(1);
-                eb.addField(cat, value.toString().strip(), true);
+                if (!value.toString().strip().isEmpty())
+                    eb.addField(cat, value.toString().strip(), true);
             }
             channel.sendMessage(eb.build()).queue();
         } else {
