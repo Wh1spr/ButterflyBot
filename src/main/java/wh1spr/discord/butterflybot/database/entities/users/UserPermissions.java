@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -16,7 +17,12 @@ public class UserPermissions {
 
     private static Logger log = Logger.getLogger("Permission");
     private static final List<String> defaultPerms = new ArrayList<>();
+    private static List<String> allPerms = new ArrayList<>();
     private static ButterflyBot bot;
+
+    public static void setAllPerms(Collection<String> perms) {
+        allPerms.addAll(perms);
+    }
 
     public static void loadDefaultPermissions(ButterflyBot b, Path permissionsPath) {
         bot = b;
@@ -57,6 +63,7 @@ public class UserPermissions {
     // HELP - Do this with regexes?
     private boolean isPermInList(String toCheck, List<String> perms) {
         if (perms.contains(toCheck)) return true;
+        if (perms.isEmpty()) return false;
 
         // change perms to list without stars
         perms = this.unstarrify(perms);
@@ -74,7 +81,8 @@ public class UserPermissions {
     private List<String> unstarrify(List<String> perms) {
         ArrayList<String> newPerms = new ArrayList<>();
         for (String perm : perms) {
-            if (perm.contains("*")) {
+            if (perm.equals("*")) return allPerms;
+            else if (perm.contains("*")) {
                 String start = perm.split("\\*")[0];
                 for (String def : this.getRegisteredPerms()) {
                     if (def.startsWith(start)) newPerms.add(def);

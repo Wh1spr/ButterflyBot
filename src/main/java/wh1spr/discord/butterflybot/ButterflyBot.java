@@ -37,6 +37,7 @@ public class ButterflyBot extends ListenerAdapter {
         reg.registerCommand("echo", new EchoCommand());
 
         this.handler = new CommandHandler(prefix==null?".":prefix, reg);
+        UserPermissions.setAllPerms(reg.getPermissions());
     }
 
     public CommandHandler getCommandHandler() {
