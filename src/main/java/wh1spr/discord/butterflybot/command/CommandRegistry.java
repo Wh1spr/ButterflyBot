@@ -13,7 +13,7 @@ public class CommandRegistry {
     public CommandRegistry(String prefix) {
         /*
          TODO Register required commands
-         these are help, perms (add/remove/reset), info
+         these are perms (add/remove/reset), info
          permissions are bot.*
          */
         this.registerCommand("help", new HelpCommand(this, prefix));

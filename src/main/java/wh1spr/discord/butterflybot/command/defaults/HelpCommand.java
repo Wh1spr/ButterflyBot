@@ -87,7 +87,7 @@ public class HelpCommand extends Command {
                         .setTitle("Help for " + prefix + aliases.get(cmd).get(0));
                 if (!cmd.isEnabled()) eb.setFooter("This command is NOT ENABLED").setColor(new Color(170, 0, 0));
                 else if (!ue.hasOneOfPermissions(cmd.getPermissions()))
-                    eb.setFooter("You do NOT have permission to use this command").setColor(Color.orange);
+                    eb.setFooter("You do NOT have permission to use this command").setColor(new Color(170, 100, 0));
                 //usage
                 eb.addField("Usage",
                         String.format("`%s%s %s`", prefix, aliases.get(cmd).get(0), cmd.getUsageMsg()), false);
@@ -107,8 +107,6 @@ public class HelpCommand extends Command {
                 channel.sendMessage(eb.build()).queue();
             }
         }
-
-
     }
 
     @Override
