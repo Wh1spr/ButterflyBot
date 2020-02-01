@@ -16,6 +16,8 @@ public class CommandRegistry {
          these are help, perms (add/remove/reset), info
          permissions are bot.*
          */
+        this.registerCommand("help", new HelpCommand(this, prefix));
+
         this.registerCommand("shutdown", new ShutdownCommand());
         this.registerCommand("disablecommand", new DisableCommand(this), "dcmd");
         this.registerCommand("enablecommand", new EnableCommand(this), "ecmd");
@@ -75,6 +77,17 @@ public class CommandRegistry {
     }
 
     /**
+     * Returns a map with all the command names (and aliases) and their respective Command instances.
+     * @param includeAliases whether or not to include aliases
+     */
+    public Map<String, Command> getCommands(boolean includeAliases) {
+        HashMap<String, Command> cmds = new HashMap<>();
+        if (includeAliases) cmds.putAll(this.aliases);
+        cmds.putAll(this.commands);
+        return Collections.unmodifiableMap(cmds);
+    }
+
+    /**
      * Returns whether or not a command with the given name or alias exists in the CommandRegistry.
      * @param commandName The name or alias of the command
      * @return True if it exists
@@ -98,12 +111,5 @@ public class CommandRegistry {
      */
     public int size() {
         return commands.size();
-    }
-
-    public Map<String, Command> getCommands() {
-        HashMap<String, Command> cmds = new HashMap<>();
-        cmds.putAll(this.aliases);
-        cmds.putAll(this.commands);
-        return Collections.unmodifiableMap(cmds);
     }
 }

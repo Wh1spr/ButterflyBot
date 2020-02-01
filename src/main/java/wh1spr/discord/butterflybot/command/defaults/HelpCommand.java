@@ -10,6 +10,7 @@ import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HelpCommand extends Command {
@@ -18,8 +19,10 @@ public class HelpCommand extends Command {
     private String prefix;
     // category-separated commands based on permission
     private HashMap<String, ArrayList<Command>> catCommands = null;
+    // Command - names, list[0] being the "main" name, rest are aliases
+    private HashMap<Command, List<String>> aliases = null;
 
-    protected HelpCommand(CommandRegistry reg, String prefix) {
+    public HelpCommand(CommandRegistry reg, String prefix) {
         super("bot.help");
         if (reg == null) throw new IllegalArgumentException("Registry cannot be null");
         this.reg = reg;
@@ -50,13 +53,28 @@ public class HelpCommand extends Command {
 
 
         EmbedBuilder eb = new EmbedBuilder().setColor(Color.cyan);
-        if (arg.isEmpty()) {
+        if (arg.isEmpty() || arg.toLowerCase().equals("-all")) {
+            boolean all = arg.toLowerCase().equals("-all");
             // .help
-            eb.setTitle("Butterfly Help").setDescription("A list of commands you can use");
+            eb.setTitle("Butterfly Help")
+                    .setDescription("A list of commands you can use")
+                    .setColor(Color.cyan);
+            if (all) {
+                eb.setDescription("A list of all commands. Commands with an :x: are disabled.");
+            }
 
-
-        } else if (arg.toLowerCase().equals("-all")) {
-            // .help -all
+            // create the fields
+            // start with strings for the commands
+            for (String cat : catCommands.keySet()) {
+                List<Command> cmds = catCommands.get(cat);
+                String value = "";
+                for (Command cmd : cmds) {
+                    value += prefix + aliases.get(cmd).get(0) + "\n";
+                }
+                cat = cat.substring(0, 1).toUpperCase() + cat.substring(1);
+                eb.addField(cat, value.strip(), true);
+            }
+            channel.sendMessage(eb.build()).queue();
         } else {
             // .help command
         }
@@ -69,8 +87,26 @@ public class HelpCommand extends Command {
         return "[-all|command]";
     }
 
+    // If there's a better way that I didn't think off, please make a pull request for it :)
     private void buildCmdMap() {
         //create map and stuff
-        Map<String, Command> cmds = this.reg.getCommands();
+        Map<String, Command> cmds = this.reg.getCommands(false);
+        Map<String, Command> cmds2 = this.reg.getCommands(true);
+        for (String name : cmds.keySet()) {
+            cmds2.remove(name);
+            ArrayList<String> names = new ArrayList<>();
+            names.add(name);
+            aliases.put(cmds.get(name), names);
+
+            String category = cmds.get(name).getPermissions().iterator().next().split("\\.")[0];
+            ArrayList<Command> commands = new ArrayList<>();
+            commands.add(cmds.get(name));
+            catCommands.put(category, commands);
+        }
+
+        for (String name : cmds2.keySet()) {
+            aliases.get(cmds2.get(name)).add(name);
+        }
     }
+
 }
