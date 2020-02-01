@@ -31,7 +31,7 @@ public class ButterflyBot extends ListenerAdapter {
     }
 
     private void registerCommands(String prefix) {
-        this.reg = new CommandRegistry();
+        this.reg = new CommandRegistry(prefix==null?".":prefix);
 
         //register commands
         reg.registerCommand("echo", new EchoCommand());

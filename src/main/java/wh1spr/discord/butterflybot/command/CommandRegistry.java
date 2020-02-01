@@ -10,7 +10,7 @@ public class CommandRegistry {
     private Map<String, Command> aliases = new HashMap<>();
     private Set<String> perms = new HashSet<>();
 
-    public CommandRegistry() {
+    public CommandRegistry(String prefix) {
         /*
          TODO Register required commands
          these are help, perms (add/remove/reset), info

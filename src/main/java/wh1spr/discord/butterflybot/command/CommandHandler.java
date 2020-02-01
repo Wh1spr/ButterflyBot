@@ -47,7 +47,7 @@ public class CommandHandler extends ListenerAdapter {
         if (!ue.isOwner() && ue.isBanned()) return null;
         // Get command
         if (!m.getContentStripped().startsWith(PREFIX)) return null;
-        String command = m.getContentStripped().split(" ",2)[0].substring(1).toLowerCase();
+        String command = m.getContentStripped().split(" ",2)[0].substring(PREFIX.length()).toLowerCase();
         if (!reg.commandExists(command)) return null;
         else {
             // TODO log message
