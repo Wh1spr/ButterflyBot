@@ -12,7 +12,7 @@ public class UserEntity extends BasicUpdateItem<User> {
     public static final String COLLECTION_NAME = "users";
 
     public UserEntity(Long id) {
-        super(COLLECTION_NAME, id);
+        super(COLLECTION_NAME, id, true);
     }
 
     public UserEntity(User user) {

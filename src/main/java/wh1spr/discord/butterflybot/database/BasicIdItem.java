@@ -2,14 +2,15 @@ package wh1spr.discord.butterflybot.database;
 
 import org.bson.Document;
 
+// used when the item you have doesnt already have an ID of its own such as a user, a message etc.
 public abstract class BasicIdItem extends BasicItem {
 
-    public BasicIdItem(String collectionName, Long id) {
-        super(collectionName, id);
+    public BasicIdItem(String collectionName, Long id, boolean shouldExist) {
+        super(collectionName, id, shouldExist);
     }
 
     public BasicIdItem(String collectionName) {
-        super(collectionName, getAndSetNextId(collectionName));
+        super(collectionName, getAndSetNextId(collectionName), false);
     }
 
     // Use 0 id to put lastId

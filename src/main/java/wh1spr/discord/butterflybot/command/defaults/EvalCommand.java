@@ -11,6 +11,8 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.awt.*;
 
+// Nashorn will be removed in future JDK release, don't know what to replace it with.
+
 public class EvalCommand extends Command {
 
     public EvalCommand() {

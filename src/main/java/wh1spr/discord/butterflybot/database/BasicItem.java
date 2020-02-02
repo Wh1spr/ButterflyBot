@@ -13,12 +13,17 @@ public abstract class BasicItem {
     private MongoCollection<Document> coll;
     private Long id = 0L;
 
-    public BasicItem(String collectionName, Long id) {
+    public BasicItem(String collectionName, Long id, boolean shouldExist) {
+        if (id == null) throw new IllegalArgumentException("Id can not be null");
         if (id < 10L) throw new IllegalArgumentException("Ids lower than 10 are reserved");
         this.collectionName = collectionName;
         this.coll = Database.getInstance().getCollection(collectionName);
         this.id = id;
-        if (!this.exists(id)) this.getCollection().insertOne(new Document("_id", id));
+        if (!this.exists(id)) {
+            if (shouldExist)
+                throw new IllegalArgumentException("The given Id does not yet exist, while shouldExist flag is true");
+            else this.getCollection().insertOne(new Document("_id", id));
+        }
     }
 
     //FIXME make collection insert/update/delete unable to be done with id < 10 because reserved
