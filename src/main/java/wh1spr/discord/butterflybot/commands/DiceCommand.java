@@ -47,6 +47,7 @@ public class DiceCommand extends Command {
                     return;
                 } else if (d.faces == 0) {
                     this.sendFailedMessage(msg, "I don't know man, I don't think I can do a 0 face roll...");
+                    return;
                 } else {
                     diceList.add(d);
                 }
