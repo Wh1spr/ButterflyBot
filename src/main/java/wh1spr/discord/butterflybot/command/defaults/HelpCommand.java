@@ -146,10 +146,10 @@ public class HelpCommand extends Command {
     @Override
     public String getHelpMsg() {
         return "The help command, shows the commands you can execute and can give more info about each command.\n" +
-                "Usage notation:" +
+                "```Usage notation:\n" +
                 "   <> - a required argument\n" +
                 "   [] - an optional argument\n" +
-                "   arg... - a repeatable argument";
+                "   arg... - a repeatable argument```";
     }
 
 }

@@ -37,14 +37,16 @@ public class DiceCommand extends Command {
         for (String arg : args) {
             if (arg.matches("^\\d+d\\d+$")) {
                 Die d = new Die(Integer.parseInt(arg.split("d")[0]),
-                        Integer.parseInt(arg.split("d")[0]));
+                        Integer.parseInt(arg.split("d")[1]));
                 total += d.num;
-                if (total > 50) {
-                    this.sendFailedMessage(msg, "Try less dice, less then 50 to be exact.");
+                if (total > 50 || total < 1) {
+                    this.sendFailedMessage(msg, "Try a number of dice between 1 and 50.");
                     return;
                 } else if (d.faces > 9999) {
                     this.sendFailedMessage(msg, "The maximum amount of faces is 9999, please keep that in mind.");
                     return;
+                } else if (d.faces == 0) {
+                    this.sendFailedMessage(msg, "I don't know man, I don't think I can do a 0 face roll...");
                 } else {
                     diceList.add(d);
                 }
