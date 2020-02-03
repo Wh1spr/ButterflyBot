@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import wh1spr.discord.butterflybot.command.CommandHandler;
 import wh1spr.discord.butterflybot.command.CommandRegistry;
+import wh1spr.discord.butterflybot.commands.DiceCommand;
 import wh1spr.discord.butterflybot.commands.EchoCommand;
 import wh1spr.discord.butterflybot.database.Database;
 import wh1spr.discord.butterflybot.database.entities.users.UserPermissions;
@@ -35,6 +36,7 @@ public class ButterflyBot extends ListenerAdapter {
 
         //register commands
         reg.registerCommand("echo", new EchoCommand());
+        reg.registerCommand("dice", new DiceCommand(), "roll");
 
         this.handler = new CommandHandler(prefix==null?".":prefix, reg);
         UserPermissions.setAllPerms(reg.getPermissions());

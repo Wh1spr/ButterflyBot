@@ -4,17 +4,17 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import wh1spr.discord.butterflybot.command.Command;
 import wh1spr.discord.butterflybot.database.entities.users.UserEntity;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class DiceCommand extends Command {
 
-    protected DiceCommand() {
+    public DiceCommand() {
         super("fun.dice");
         rand = new Random();
     }
@@ -31,29 +31,47 @@ public class DiceCommand extends Command {
         }
         //get the dice to roll
         int total = 0;
+        ArrayList<Die> diceList = new ArrayList<>();
 
         String[] args = this.stripCommand(msg).split(" ");
         for (String arg : args) {
             if (arg.matches("^\\d+d\\d+$")) {
-                Dice d = new Dice(Integer.parseInt(arg.split("d")[0]),
+                Die d = new Die(Integer.parseInt(arg.split("d")[0]),
                         Integer.parseInt(arg.split("d")[0]));
                 total += d.num;
                 if (total > 50) {
                     this.sendFailedMessage(msg, "Try less dice, less then 50 to be exact.");
-                    break;
+                    return;
                 } else if (d.faces > 9999) {
                     this.sendFailedMessage(msg, "The maximum amount of faces is 9999, please keep that in mind.");
-                    break;
+                    return;
                 } else {
-                    //good to go
+                    diceList.add(d);
                 }
+            } else {
+                this.sendFailedMessage(msg, String.format("Couldn't parse '%s'. Rito pls fix.", arg));
+                return;
             }
         }
+
+        EmbedBuilder res = new EmbedBuilder().setTitle(":game_die: The dice were rolled!").setColor(Color.cyan);
+        for (Die d : diceList) {
+            StringBuilder s = new StringBuilder();
+            s.append("*");
+            s.append(this.rand.nextInt(d.faces)+1);
+            for (int i=1; i < d.num; i++) {
+                s.append(", ").append(this.rand.nextInt(d.faces)+1);
+            }
+            s.append("*");
+
+            res.addField(String.format("%dd%d", d.num, d.faces), s.toString(), true);
+        }
+        channel.sendMessage(res.build()).queue();
     }
 
-    private class Dice {
+    private static class Die {
         private int num, faces;
-        private Dice(int num, int faces) {
+        private Die(int num, int faces) {
             this.num = num;
             this.faces = faces;
         }
@@ -66,6 +84,10 @@ public class DiceCommand extends Command {
 
     @Override
     public String getHelpMsg() {
-        return "Roll some dice! Max 50 dice, Max 9999 faces";
+        return "Roll some dice! Max 50 dice, Max 9999 faces.\n" +
+                "Notation is 'xdy', where x is the number of dice, and y is the number of faces.\n" +
+                "e.g.: '1d2' - one coinflip\n" +
+                "e.g.: '5d2' - five coinflips\n" +
+                "e.g.: '2d6' - 2 standard cube dice\n";
     }
 }
