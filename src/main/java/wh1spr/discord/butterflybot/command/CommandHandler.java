@@ -67,15 +67,14 @@ public class CommandHandler extends ListenerAdapter {
      */
     private Command getCommand(User author, Message m) {
         if (author.isBot()) return null;
-        UserEntity ue = new UserEntity(author);
-        if (!ue.isOwner() && ue.isBanned()) return null;
         // Get command
         if (!m.getContentStripped().startsWith(PREFIX)) return null;
         String command = m.getContentStripped().split(" ",2)[0].substring(PREFIX.length()).toLowerCase();
         if (!reg.commandExists(command)) return null;
         Command c = reg.getCommand(command);
         if (!c.isEnabled()) return null;
-
+        UserEntity ue = new UserEntity(author);
+        if (!ue.isOwner() && ue.isBanned()) return null;
         return c;
     }
 }
